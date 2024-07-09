@@ -6,7 +6,7 @@ name: Deploy
 on:
   push:
     branches:
-      - trunk
+      - main
 
 permissions:
   contents: write
