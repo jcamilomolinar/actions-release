@@ -6,7 +6,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - trunk
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -30,10 +30,5 @@ jobs:
       - name: Push tag
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PUSHSECRET }}
           tags: true
-      - name: Invocar workflow de release
-        uses: actions/github-script@v6
-        with:
-          script: |
-            gh workflow run release.yml -ref ${{ github.sha }}
