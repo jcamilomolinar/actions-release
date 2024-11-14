@@ -17,7 +17,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: DET
+      - name: DET without branch
+        run: |
+          # Install devsecops-engine-tools
+          pip3 install https://test-files.pythonhosted.org/packages/50/72/56aa856bbeb103208ca8590413af46f667bd1602ecf965a8a0d0a50a873c/devsecops_engine_tools-1.16.3-py3-none-any.whl
+          output=$(devsecops-engine-tools --platform_devops github --remote_config_repo avengers --tool engine_iac --folder_path .)
+          echo "$output"
+          if [[ $output == *"✘Failed"* ]]; then
+            exit 1
+          fi
+        continue-on-error: true
+    
+      - name: DET with branch
         run: |
           # Install devsecops-engine-tools
           pip3 install https://test-files.pythonhosted.org/packages/50/72/56aa856bbeb103208ca8590413af46f667bd1602ecf965a8a0d0a50a873c/devsecops_engine_tools-1.16.3-py3-none-any.whl
